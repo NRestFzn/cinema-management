@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CinemaManagement.Models
 {
-    public class Role : BaseModel
+    public class MasterGenre : BaseModel
     {
         public required string Name { get; set; }
-        public ICollection<User> Users { get; set; } = [];
+        public ICollection<MasterMovie> MasterMovies { get; set; } = [];
     }
 
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class MasterGenreConfiguration : IEntityTypeConfiguration<MasterGenre>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<MasterGenre> builder)
         {
-            builder.ToTable("roles");
+            builder.ToTable("MasterGenres");
 
             builder.HasKey(e => e.Id);
 
@@ -34,9 +34,9 @@ namespace CinemaManagement.Models
             .HasColumnName("updatedAt")
             .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
-            builder.HasMany(e => e.Users)
-                   .WithOne(e => e.Role)
-                   .HasForeignKey(e => e.RoleId)
+            builder.HasMany(e => e.MasterMovies)
+                   .WithOne(e => e.MasterGenre)
+                   .HasForeignKey(e => e.MasterGenreId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

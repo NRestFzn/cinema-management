@@ -7,23 +7,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CinemaManagement.Models
 {
-    public class Role : BaseModel
+    public class Province : BaseModel
     {
         public required string Name { get; set; }
-        public ICollection<User> Users { get; set; } = [];
+        public ICollection<City> Cities { get; set; } = [];
     }
 
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class ProvinceConfiguration : IEntityTypeConfiguration<Province>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<Province> builder)
         {
-            builder.ToTable("roles");
+            builder.ToTable("provincies");
 
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id).HasColumnName("id").IsRequired();
 
-            builder.HasIndex(e => e.Name).IsUnique(true);
             builder.Property(e => e.Name).HasColumnName("name").IsRequired();
 
             builder.Property(e => e.CreatedAt)
@@ -34,9 +33,9 @@ namespace CinemaManagement.Models
             .HasColumnName("updatedAt")
             .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
-            builder.HasMany(e => e.Users)
-                   .WithOne(e => e.Role)
-                   .HasForeignKey(e => e.RoleId)
+            builder.HasMany(e => e.Cities)
+                   .WithOne(e => e.Province)
+                   .HasForeignKey(e => e.ProvinceId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

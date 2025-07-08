@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace BasicApi.Migrations
+namespace CinemaManagement.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateTableRole : Migration
+    public partial class CreateTableStudioGenres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

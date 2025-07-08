@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CinemaManagement.Models
 {
-    public class Role : BaseModel
+    public class MasterChairType : BaseModel
     {
         public required string Name { get; set; }
-        public ICollection<User> Users { get; set; } = [];
+        public ICollection<Chair> Chairs { get; set; } = [];
     }
 
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class MasterChairTypeConfiguration : IEntityTypeConfiguration<MasterChairType>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<MasterChairType> builder)
         {
-            builder.ToTable("roles");
+            builder.ToTable("MasterChairTypes");
 
             builder.HasKey(e => e.Id);
 
@@ -34,9 +34,9 @@ namespace CinemaManagement.Models
             .HasColumnName("updatedAt")
             .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
-            builder.HasMany(e => e.Users)
-                   .WithOne(e => e.Role)
-                   .HasForeignKey(e => e.RoleId)
+            builder.HasMany(e => e.Chairs)
+                   .WithOne(e => e.ChairType)
+                   .HasForeignKey(e => e.ChairTypeId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

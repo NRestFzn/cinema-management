@@ -7,24 +7,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CinemaManagement.Models
 {
-    public class Role : BaseModel
+    public class StudioFacility : BaseModel
     {
         public required string Name { get; set; }
-        public ICollection<User> Users { get; set; } = [];
+        public required int StudioId { get; set; }
+        public required Studio Studio { get; set; }
     }
 
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class StudioFacilityConfiguration : IEntityTypeConfiguration<StudioFacility>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<StudioFacility> builder)
         {
-            builder.ToTable("roles");
+            builder.ToTable("studioFacilities");
 
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id).HasColumnName("id").IsRequired();
 
-            builder.HasIndex(e => e.Name).IsUnique(true);
             builder.Property(e => e.Name).HasColumnName("name").IsRequired();
+
+            builder.Property(e => e.StudioId).HasColumnName("StudioId").IsRequired();
 
             builder.Property(e => e.CreatedAt)
             .HasColumnName("createdAt")
@@ -34,9 +36,9 @@ namespace CinemaManagement.Models
             .HasColumnName("updatedAt")
             .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
-            builder.HasMany(e => e.Users)
-                   .WithOne(e => e.Role)
-                   .HasForeignKey(e => e.RoleId)
+            builder.HasOne(e => e.Studio)
+                   .WithMany(e => e.StudioFacilities)
+                   .HasForeignKey(e => e.StudioId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
