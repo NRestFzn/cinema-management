@@ -4,22 +4,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
 
-namespace BasicApi.Dto
+namespace CinemaManagement.Dto
 {
     public class ApiResponseDto<T>
     {
 
-        public required Boolean success { get; set; }
-        public T? data { get; set; }
+        public bool Success { get; set; }
+        public T? Data { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? message { get; set; }
+        public string? Message { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public int? errorCode { get; set; } = null;
+        public int? ErrorCode { get; set; } = null;
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public List<String>? errors { get; set; } = null;
+        public List<string>? Errors { get; set; } = null;
     }
 
 }
