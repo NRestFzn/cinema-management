@@ -1,6 +1,7 @@
-using BasicApi.Data;
+using CinemaManagement.Data;
 using Microsoft.EntityFrameworkCore;
-using BasicApi.Middlewares;
+using CinemaManagement.Middlewares;
+using Mapster;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+builder.Services.AddMapster();
 
 var app = builder.Build();
 
