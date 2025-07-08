@@ -6,14 +6,14 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "BasicApi/1.0.0": {
+      "CinemaManagement/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "9.0.6",
           "Microsoft.EntityFrameworkCore.Design": "9.0.6",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.3"
         },
         "runtime": {
-          "BasicApi.dll": {}
+          "CinemaManagement.dll": {}
         }
       },
       "Humanizer.Core/2.14.1": {
@@ -622,7 +622,7 @@
     }
   },
   "libraries": {
-    "BasicApi/1.0.0": {
+    "CinemaManagement/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

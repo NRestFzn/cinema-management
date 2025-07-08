@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Liz\\Code\\Learn\\C#\\CinemaManagement\\CinemaManagement.csproj": {}
+    "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Liz\\Code\\Learn\\C#\\CinemaManagement\\CinemaManagement.csproj": {
+    "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Liz\\Code\\Learn\\C#\\CinemaManagement\\CinemaManagement.csproj",
+        "projectUniqueName": "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj",
         "projectName": "CinemaManagement",
-        "projectPath": "C:\\Users\\Liz\\Code\\Learn\\C#\\CinemaManagement\\CinemaManagement.csproj",
+        "projectPath": "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj",
         "packagesPath": "C:\\Users\\Liz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Liz\\Code\\Learn\\C#\\CinemaManagement\\obj\\",
+        "outputPath": "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Liz\\AppData\\Roaming\\NuGet\\NuGet.Config"

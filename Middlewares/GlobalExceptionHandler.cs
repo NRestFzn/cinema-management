@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using BasicApi.Helpers;
+using CinemaManagement.Helpers;
 
-namespace BasicApi.Middlewares
+namespace CinemaManagement.Middlewares
 {
 
     public class GlobalExceptionHandler : IExceptionHandler
