@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BasicApi.Dto;
+using CinemaManagement.Dto;
 
-namespace BasicApi.Helpers
+namespace CinemaManagement.Helpers
 {
     public static class ApiResponse
     {
@@ -15,9 +15,9 @@ namespace BasicApi.Helpers
         {
             var response = new ApiResponseDto<T>
             {
-                success = true,
-                message = message,
-                data = data
+                Success = true,
+                Message = message,
+                Data = data
             };
             return new OkObjectResult(response);
         }
@@ -26,9 +26,9 @@ namespace BasicApi.Helpers
         {
             var response = new ApiResponseDto<T>
             {
-                success = true,
-                message = message,
-                data = data
+                Success = true,
+                Message = message,
+                Data = data
             };
 
             return new CreatedAtActionResult(
@@ -39,14 +39,16 @@ namespace BasicApi.Helpers
             );
         }
 
-        public static ActionResult<ApiResponseDto<T>> NotFound<T>()
+        public static ActionResult<ApiResponseDto<T>> NotFound<T>(string? message = null)
         {
+            message = string.IsNullOrEmpty(message) ? "Data not found" : message;
+
             var response = new ApiResponseDto<object>
             {
-                success = false,
-                data = default(T),
-                errorCode = StatusCodes.Status404NotFound,
-                errors = ["Data not found"],
+                Success = false,
+                Data = default(T),
+                ErrorCode = StatusCodes.Status404NotFound,
+                Errors = [message],
             };
             return new NotFoundObjectResult(response);
         }
@@ -55,9 +57,9 @@ namespace BasicApi.Helpers
         {
             var response = new ApiResponseDto<T>
             {
-                success = false,
-                errorCode = StatusCodes.Status400BadRequest,
-                errors = messages,
+                Success = false,
+                ErrorCode = StatusCodes.Status400BadRequest,
+                Errors = messages,
             };
             return new BadRequestObjectResult(response);
         }
@@ -66,10 +68,10 @@ namespace BasicApi.Helpers
         {
             var response = new ApiResponseDto<object>
             {
-                success = false,
-                message = "Internal server error.",
-                errorCode = StatusCodes.Status500InternalServerError,
-                errors = [message]
+                Success = false,
+                Message = "Internal server error.",
+                ErrorCode = StatusCodes.Status500InternalServerError,
+                Errors = [message]
             };
             return new ObjectResult(response)
             {
