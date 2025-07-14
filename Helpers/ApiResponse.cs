@@ -11,7 +11,7 @@ namespace CinemaManagement.Helpers
 {
     public static class ApiResponse
     {
-        public static ActionResult<ApiResponseDto> Ok<T>(T data, string? message = null)
+        public static ActionResult<GetDataResponseDto<T>> Ok<T>(T data, string? message = null)
         {
             message = string.IsNullOrEmpty(message) ? "success" : message;
 
@@ -33,8 +33,25 @@ namespace CinemaManagement.Helpers
                 Success = true,
                 Message = message
             };
+
             return new OkObjectResult(response);
         }
+
+        public static ActionResult<ApiResponseDto> AuthOk(string token, int userId, string? message = null)
+        {
+            message = string.IsNullOrEmpty(message) ? "success" : message;
+
+            var response = new AuthSuccessResponseDto
+            {
+                Success = true,
+                Token = token,
+                UserId = userId,
+                Message = message
+            };
+
+            return new OkObjectResult(response);
+        }
+
 
         public static ActionResult<ApiResponseDto> Created<T>(string actionName, object routeValues, T data, string message)
         {
