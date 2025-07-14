@@ -20,7 +20,6 @@ namespace CinemaManagement.Models
         public int StudioId { get; set; }
         public int ChairTypeId { get; set; }
         public required Studio Studio { get; set; }
-
         public required MasterChairType ChairType { get; set; }
     }
 

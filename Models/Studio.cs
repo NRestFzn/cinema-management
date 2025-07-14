@@ -12,8 +12,11 @@ namespace CinemaManagement.Models
         public required string Name { get; set; }
         public int Capacity { get; set; }
         public int StudioTypeId { get; set; }
+        public int CinemaId { get; set; }
         public required MasterStudioType StudioType { get; set; }
+        public required Cinema Cinema { get; set; }
         public ICollection<StudioFacility> StudioFacilities { get; set; } = [];
+        public ICollection<MovieSchedule> MovieSchedules { get; set; } = [];
     }
 
     public class StudioConfiguration : IEntityTypeConfiguration<Studio>
@@ -30,7 +33,9 @@ namespace CinemaManagement.Models
 
             builder.Property(e => e.Capacity).HasColumnName("capacity").IsRequired();
 
-            builder.Property(e => e.StudioTypeId).HasColumnName("StudioTypeId").IsRequired();
+            builder.Property(e => e.StudioTypeId).HasColumnName("StudioTypeId").IsRequired()
+            ;
+            builder.Property(e => e.CinemaId).HasColumnName("CinemaId").IsRequired();
 
             builder.Property(e => e.CreatedAt)
             .HasColumnName("createdAt")
@@ -48,6 +53,16 @@ namespace CinemaManagement.Models
             builder.HasOne(e => e.StudioType)
                    .WithMany(e => e.Studios)
                    .HasForeignKey(e => e.StudioTypeId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(e => e.Cinema)
+                   .WithMany(e => e.Studios)
+                   .HasForeignKey(e => e.CinemaId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.MovieSchedules)
+                   .WithOne(e => e.Studio)
+                   .HasForeignKey(e => e.StudioId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

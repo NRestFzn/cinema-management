@@ -19,6 +19,7 @@ namespace CinemaManagement.Models
         public MovieStatus Status { get; set; }
         public required MasterMovie MasterMovie { get; set; }
         public required Cinema Cinema { get; set; }
+        public ICollection<MovieSchedule> MovieSchedules { get; set; } = [];
     }
 
     public class MovieConfiguration : IEntityTypeConfiguration<Movie>
@@ -51,6 +52,11 @@ namespace CinemaManagement.Models
             builder.HasOne(e => e.MasterMovie)
                    .WithMany(e => e.Movies)
                    .HasForeignKey(e => e.MasterMovieId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.MovieSchedules)
+                   .WithOne(e => e.Movie)
+                   .HasForeignKey(e => e.MovieId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

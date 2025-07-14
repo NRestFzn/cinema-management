@@ -14,6 +14,7 @@ namespace CinemaManagement.Models
         public required string DetailLocation { get; set; }
         public required City City { get; set; }
         public ICollection<OperatingHour> OperatingHours = [];
+        public ICollection<Studio> Studios = [];
     }
 
     public class CinemaConfiguration : IEntityTypeConfiguration<Cinema>
@@ -49,6 +50,12 @@ namespace CinemaManagement.Models
                    .WithOne(e => e.Cinema)
                    .HasForeignKey(e => e.CinemaId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.Studios)
+                   .WithOne(e => e.Cinema)
+                   .HasForeignKey(e => e.CinemaId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }
