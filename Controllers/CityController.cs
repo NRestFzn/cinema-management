@@ -9,14 +9,14 @@ using Mapster;
 
 namespace CinemaManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CityController(ApiDbContext context) : ControllerBase
     {
         private readonly ApiDbContext _context = context;
 
         [HttpPost]
-        public async Task<ActionResult<ApiResponseDto<CityDto>>> AddCity(CreateCityDto formData)
+        public async Task<ActionResult<ApiResponseDto>> AddCity(CreateCityDto formData)
         {
             if (!ModelState.IsValid)
             {
@@ -24,14 +24,14 @@ namespace CinemaManagement.Controllers
                     .SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage).ToList();
 
-                return ApiResponse.BadRequest<CityDto>(errorMessages);
+                return ApiResponse.BadRequest(errorMessages);
             }
 
             var findProvince = await _context.Province.FindAsync(formData.ProvinceId);
 
             if (findProvince == null)
             {
-                return ApiResponse.NotFound<CityDto>("Province not found");
+                return ApiResponse.NotFound("Province not found");
             }
 
             var newFormData = formData.Adapt<City>();
@@ -47,23 +47,23 @@ namespace CinemaManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponseDto<List<CityDto>>>> GetAllCity()
+        public async Task<ActionResult<GetDataResponseDto<List<CityDto>>>> GetAllCity()
         {
-            var provinces = await _context.City.ToListAsync();
+            var cities = await _context.City.ToListAsync();
 
-            var results = provinces.Adapt<List<CityDto>>();
+            var results = cities.Adapt<List<CityDto>>();
 
             return ApiResponse.Ok(results, "success get data");
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApiResponseDto<CityDetailDto>>> GetCityById(int Id)
+        public async Task<ActionResult<GetDataResponseDto<CityDetailDto>>> GetCityById(int Id)
         {
             var city = await _context.City.Include(e => e.Province).FirstOrDefaultAsync(el => el.Id == Id);
 
             if (city == null)
             {
-                return ApiResponse.NotFound<CityDetailDto>("City not found");
+                return ApiResponse.NotFound("City not found");
             }
 
             var results = city.Adapt<CityDetailDto>();
@@ -72,26 +72,26 @@ namespace CinemaManagement.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ApiResponseDto<CityDto>>> UpdateCity(int id, [FromBody] UpdateCityDto formData)
+        public async Task<ActionResult<ApiResponseDto>> UpdateCity(int id, [FromBody] UpdateCityDto formData)
         {
             if (!ModelState.IsValid)
             {
                 var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return ApiResponse.BadRequest<CityDto>(errorMessages);
+                return ApiResponse.BadRequest(errorMessages);
             }
 
             var existingCity = await _context.City.FindAsync(id);
 
             if (existingCity == null)
             {
-                return ApiResponse.NotFound<CityDto>("City not found");
+                return ApiResponse.NotFound("City not found");
             }
 
             var findProvince = await _context.Province.FindAsync(formData.ProvinceId);
 
             if (findProvince == null)
             {
-                return ApiResponse.NotFound<CityDto>("Province not found");
+                return ApiResponse.NotFound("Province not found");
             }
 
             formData.Adapt(existingCity);
@@ -105,24 +105,24 @@ namespace CinemaManagement.Controllers
                 throw;
             }
 
-            return ApiResponse.Ok(existingCity.Adapt<CityDto>(), "Data updated successfully");
+            return ApiResponse.Ok("Data updated successfully");
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ApiResponseDto<CityDto>>> DeleteCity(int id)
+        public async Task<ActionResult<ApiResponseDto>> DeleteCity(int id)
         {
-            var province = await _context.City.FindAsync(id);
+            var city = await _context.City.FindAsync(id);
 
-            if (province == null)
+            if (city == null)
             {
-                return ApiResponse.NotFound<CityDto>("City not found");
+                return ApiResponse.NotFound("City not found");
             }
 
-            _context.City.Remove(province);
+            _context.City.Remove(city);
 
             await _context.SaveChangesAsync();
 
-            return ApiResponse.Ok(province.Adapt<CityDto>(), "Data deleted successfuly");
+            return ApiResponse.Ok("Data deleted successfuly");
         }
     }
 }

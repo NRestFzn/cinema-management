@@ -6,19 +6,17 @@ using CinemaManagement.Models;
 using CinemaManagement.Dto;
 using CinemaManagement.Helpers;
 using Mapster;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagement.Controllers
 {
-    [Route("[controller]")]
+    [Route("master/studiotype")]
     [ApiController]
-    public class ProvinceController(ApiDbContext context) : ControllerBase
+    public class MasterStudioTypeController(ApiDbContext context) : ControllerBase
     {
         private readonly ApiDbContext _context = context;
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<ApiResponseDto>> AddProvince(CreateProvinceDto formData)
+        public async Task<ActionResult<ApiResponseDto>> AddMasterStudioType([FromBody] CreateMasterStudioTypeDto formData)
         {
             if (!ModelState.IsValid)
             {
@@ -29,47 +27,40 @@ namespace CinemaManagement.Controllers
                 return ApiResponse.BadRequest(errorMessages);
             }
 
-            var newFormData = formData.Adapt<Province>();
+            var newFormData = formData.Adapt<MasterStudioType>();
 
-            _context.Province.Add(newFormData);
+            _context.MasterStudioType.Add(newFormData);
 
             await _context.SaveChangesAsync();
 
-            var data = newFormData.Adapt<ProvinceDto>();
+            var data = newFormData.Adapt<MasterStudioTypeDto>();
 
-            return ApiResponse.Created(nameof(GetProvinceById), new { id = newFormData.Id }, data, "Data succesfully created");
+            return ApiResponse.Created(nameof(GetMasterStudioTypeById), new { id = newFormData.Id }, data, "Data succesfully created");
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<GetDataResponseDto<List<ProvinceDto>>>> GetAllProvince()
+        public async Task<ActionResult<GetDataResponseDto<List<MasterStudioTypeDto>>>> GetAllMasterStudioType()
         {
-            var data = await _context.Province.ToListAsync();
+            var data = await _context.MasterStudioType.ToListAsync();
 
-            var results = data.Adapt<List<ProvinceDto>>();
-
-            return ApiResponse.Ok(results, "success get data");
+            return ApiResponse.Ok(data.Adapt<List<MasterStudioTypeDto>>(), "success get data");
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<GetDataResponseDto<ProvinceDetailDto>>> GetProvinceById(int Id)
+        public async Task<ActionResult<GetDataResponseDto<MasterStudioTypeDetailDto>>> GetMasterStudioTypeById(int Id)
         {
-            var data = await _context.Province.Include(e => e.Cities).FirstOrDefaultAsync(el => el.Id == Id);
+            var data = await _context.MasterStudioType.Include(e => e.Studios).FirstOrDefaultAsync(el => el.Id == Id);
 
             if (data == null)
             {
                 return ApiResponse.NotFound();
             }
 
-            var results = data.Adapt<ProvinceDetailDto>();
-
-            return ApiResponse.Ok(results, "Success get data");
+            return ApiResponse.Ok(data.Adapt<MasterStudioTypeDetailDto>(), "Success get data");
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<ApiResponseDto>> UpdateProvince(int id, [FromBody] UpdateProvinceDto formData)
+        public async Task<ActionResult<ApiResponseDto>> UpdateMasterStudioType(int id, [FromBody] UpdateMasterStudioTypeDto formData)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +68,7 @@ namespace CinemaManagement.Controllers
                 return ApiResponse.BadRequest(errorMessages);
             }
 
-            var data = await _context.Province.FindAsync(id);
+            var data = await _context.MasterStudioType.FindAsync(id);
 
             if (data == null)
             {
@@ -95,21 +86,20 @@ namespace CinemaManagement.Controllers
                 throw;
             }
 
-            return ApiResponse.Ok("Data updated successfully");
+            return ApiResponse.Ok("Data successfully updated");
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<ApiResponseDto>> DeleteProvince(int id)
+        public async Task<ActionResult<ApiResponseDto>> DeleteMasterStudioType(int id)
         {
-            var data = await _context.Province.FindAsync(id);
+            var data = await _context.MasterStudioType.FindAsync(id);
 
             if (data == null)
             {
                 return ApiResponse.NotFound();
             }
 
-            _context.Province.Remove(data);
+            _context.MasterStudioType.Remove(data);
 
             await _context.SaveChangesAsync();
 

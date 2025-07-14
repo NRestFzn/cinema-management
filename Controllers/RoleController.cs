@@ -8,7 +8,7 @@
 
 // namespace CinemaManagement.Controllers
 // {
-//     [Route("api/[controller]")]
+//     [Route("[controller]")]
 //     [ApiController]
 //     public class RoleController(ApiDbContext context) : ControllerBase
 //     {
