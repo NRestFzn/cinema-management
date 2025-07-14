@@ -27,4 +27,10 @@ namespace CinemaManagement.Dto
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public List<string>? Errors { get; set; } = null;
     }
+
+    public class AuthSuccessResponseDto : ApiResponseDto
+    {
+        public required int UserId { get; set; }
+        public required string Token { get; set; }
+    }
 }

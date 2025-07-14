@@ -11,10 +11,15 @@ namespace CinemaManagement.Dto
         public int Id { get; set; }
         public required string Fullname { get; set; }
         public required string Email { get; set; }
+        public required string PhoneNumber { get; set; }
 
         [JsonIgnore]
         public required string Password { get; set; }
         public required int RoleId { get; set; }
-        public RoleDto? Role { get; set; }
+    }
+
+    public class UserDetailDto : UserDto
+    {
+        public required RoleDto Role { get; set; }
     }
 }
