@@ -17,7 +17,7 @@ namespace CinemaManagement.Controllers
         private readonly ApiDbContext _context = context;
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<ApiResponseDto>> AddProvince(CreateProvinceDto formData)
         {
             if (!ModelState.IsValid)
@@ -41,7 +41,7 @@ namespace CinemaManagement.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<GetDataResponseDto<List<ProvinceDto>>>> GetAllProvince()
         {
             var data = await _context.Province.ToListAsync();
@@ -52,7 +52,7 @@ namespace CinemaManagement.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<GetDataResponseDto<ProvinceDetailDto>>> GetProvinceById(int Id)
         {
             var data = await _context.Province.Include(e => e.Cities).FirstOrDefaultAsync(el => el.Id == Id);
@@ -68,7 +68,7 @@ namespace CinemaManagement.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<ApiResponseDto>> UpdateProvince(int id, [FromBody] UpdateProvinceDto formData)
         {
             if (!ModelState.IsValid)
@@ -99,7 +99,7 @@ namespace CinemaManagement.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<ApiResponseDto>> DeleteProvince(int id)
         {
             var data = await _context.Province.FindAsync(id);

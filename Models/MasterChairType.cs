@@ -11,6 +11,7 @@ namespace CinemaManagement.Models
     {
         public required string Name { get; set; }
         public ICollection<Chair> Chairs { get; set; } = [];
+        public ICollection<PriceRule> PriceRules { get; set; } = [];
     }
 
     public class MasterChairTypeConfiguration : IEntityTypeConfiguration<MasterChairType>
@@ -35,6 +36,11 @@ namespace CinemaManagement.Models
             .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
             builder.HasMany(e => e.Chairs)
+                   .WithOne(e => e.ChairType)
+                   .HasForeignKey(e => e.ChairTypeId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.PriceRules)
                    .WithOne(e => e.ChairType)
                    .HasForeignKey(e => e.ChairTypeId)
                    .OnDelete(DeleteBehavior.Cascade);

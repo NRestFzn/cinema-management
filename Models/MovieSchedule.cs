@@ -16,6 +16,8 @@ namespace CinemaManagement.Models
         public TimeOnly EndHour { get; set; }
         public required Movie Movie { get; set; }
         public required Studio Studio { get; set; }
+
+        public ICollection<Transaction>? Transactions { get; set; }
     }
 
     public class MovieScheduleConfiguration : IEntityTypeConfiguration<MovieSchedule>
@@ -55,6 +57,12 @@ namespace CinemaManagement.Models
                    .WithMany(e => e.MovieSchedules)
                    .HasForeignKey(e => e.MovieId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.Transactions)
+                   .WithOne(e => e.MovieSchedule)
+                   .HasForeignKey(e => e.ScheduleId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

@@ -17,12 +17,18 @@ namespace CinemaManagement.Data
         public DbSet<MasterMovie> MasterMovie { get; set; }
         public DbSet<MasterStudioType> MasterStudioType { get; set; }
         public DbSet<Movie> Movie { get; set; }
+        public DbSet<MovieSchedule> MovieSchedule { get; set; }
         public DbSet<OperatingHour> OperatingHour { get; set; }
         public DbSet<Province> Province { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Studio> Studio { get; set; }
         public DbSet<StudioFacility> StudioFacility { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Voucher> Voucher { get; set; }
+        public DbSet<PaymentMethod> PaymentMethod { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<TransactionDetail> TransactionDetail { get; set; }
+        public DbSet<PriceRule> PriceRule { get; set; }
 
         public override int SaveChanges()
         {

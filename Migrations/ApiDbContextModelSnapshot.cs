@@ -442,6 +442,104 @@ namespace CinemaManagement.Migrations
                     b.ToTable("operatingHours", (string)null);
                 });
 
+            modelBuilder.Entity("CinemaManagement.Models.PaymentMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updatedAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("paymentMethods", (string)null);
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.PriceRule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChairTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("ChairTypeId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<string>("DayType")
+                        .IsRequired()
+                        .HasColumnType("enum('weekend','weekday')")
+                        .HasColumnName("dayType");
+
+                    b.Property<DateTime>("DaysDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("daysDate");
+
+                    b.Property<bool>("IsHoliday")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("isHoliday");
+
+                    b.Property<bool>("IsWeekend")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("isWeekend");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10, 2)")
+                        .HasColumnName("price");
+
+                    b.Property<int>("StudioId")
+                        .HasColumnType("int")
+                        .HasColumnName("StudioId");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updatedAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChairTypeId");
+
+                    b.HasIndex("StudioId");
+
+                    b.ToTable("priceRules", (string)null);
+                });
+
             modelBuilder.Entity("CinemaManagement.Models.Province", b =>
                 {
                     b.Property<int>("Id")
@@ -591,6 +689,118 @@ namespace CinemaManagement.Migrations
                     b.ToTable("studioFacilities", (string)null);
                 });
 
+            modelBuilder.Entity("CinemaManagement.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<decimal>("OriginalAmount")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("enum('paid','unpaid','canceled')");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<int>("TotalDiscount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("TransactionCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("varchar(6)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updatedAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoucherDiscount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int?>("VoucherId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.HasIndex("TransactionCode")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VoucherId");
+
+                    b.ToTable("transactions", (string)null);
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.TransactionDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChairId")
+                        .HasColumnType("int")
+                        .HasColumnName("ChairId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10, 2)")
+                        .HasColumnName("price");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int")
+                        .HasColumnName("TransactionId");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updatedAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("transactionDetails", (string)null);
+                });
+
             modelBuilder.Entity("CinemaManagement.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -647,6 +857,53 @@ namespace CinemaManagement.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.Voucher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<int>("Discount")
+                        .HasColumnType("int")
+                        .HasColumnName("discount");
+
+                    b.Property<DateTime>("ExpiredDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("expiredDate");
+
+                    b.Property<int>("Quota")
+                        .HasColumnType("int")
+                        .HasColumnName("quota");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updatedAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<DateTime>("ValidDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("validDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("vouchers", (string)null);
                 });
 
             modelBuilder.Entity("CinemaManagement.Models.Chair", b =>
@@ -750,6 +1007,25 @@ namespace CinemaManagement.Migrations
                     b.Navigation("Cinema");
                 });
 
+            modelBuilder.Entity("CinemaManagement.Models.PriceRule", b =>
+                {
+                    b.HasOne("CinemaManagement.Models.MasterChairType", "ChairType")
+                        .WithMany("PriceRules")
+                        .HasForeignKey("ChairTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CinemaManagement.Models.Studio", "Studio")
+                        .WithMany("PriceRules")
+                        .HasForeignKey("StudioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChairType");
+
+                    b.Navigation("Studio");
+                });
+
             modelBuilder.Entity("CinemaManagement.Models.Studio", b =>
                 {
                     b.HasOne("CinemaManagement.Models.Cinema", "Cinema")
@@ -780,6 +1056,51 @@ namespace CinemaManagement.Migrations
                     b.Navigation("Studio");
                 });
 
+            modelBuilder.Entity("CinemaManagement.Models.Transaction", b =>
+                {
+                    b.HasOne("CinemaManagement.Models.PaymentMethod", "PaymentMethod")
+                        .WithMany("Transactions")
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CinemaManagement.Models.MovieSchedule", "MovieSchedule")
+                        .WithMany("Transactions")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CinemaManagement.Models.User", "User")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CinemaManagement.Models.Voucher", "Voucher")
+                        .WithMany("Transactions")
+                        .HasForeignKey("VoucherId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("MovieSchedule");
+
+                    b.Navigation("PaymentMethod");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Voucher");
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.TransactionDetail", b =>
+                {
+                    b.HasOne("CinemaManagement.Models.Transaction", "Transaction")
+                        .WithMany("TransactionDetail")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
+                });
+
             modelBuilder.Entity("CinemaManagement.Models.User", b =>
                 {
                     b.HasOne("CinemaManagement.Models.Role", "Role")
@@ -806,6 +1127,8 @@ namespace CinemaManagement.Migrations
             modelBuilder.Entity("CinemaManagement.Models.MasterChairType", b =>
                 {
                     b.Navigation("Chairs");
+
+                    b.Navigation("PriceRules");
                 });
 
             modelBuilder.Entity("CinemaManagement.Models.MasterGenre", b =>
@@ -828,6 +1151,16 @@ namespace CinemaManagement.Migrations
                     b.Navigation("MovieSchedules");
                 });
 
+            modelBuilder.Entity("CinemaManagement.Models.MovieSchedule", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.PaymentMethod", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
             modelBuilder.Entity("CinemaManagement.Models.Province", b =>
                 {
                     b.Navigation("Cities");
@@ -842,7 +1175,24 @@ namespace CinemaManagement.Migrations
                 {
                     b.Navigation("MovieSchedules");
 
+                    b.Navigation("PriceRules");
+
                     b.Navigation("StudioFacilities");
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.Transaction", b =>
+                {
+                    b.Navigation("TransactionDetail");
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.User", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("CinemaManagement.Models.Voucher", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

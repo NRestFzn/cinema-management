@@ -17,6 +17,8 @@ namespace CinemaManagement.Models
         public required string Password { get; set; }
         public required int RoleId { get; set; }
         public required Role Role { get; set; }
+
+        public ICollection<Transaction>? Transactions { get; set; }
     }
 
     public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -52,6 +54,11 @@ namespace CinemaManagement.Models
             builder.HasOne(e => e.Role)
                    .WithMany(e => e.Users)
                    .HasForeignKey(e => e.RoleId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.Transactions)
+                   .WithOne(e => e.User)
+                   .HasForeignKey(e => e.UserId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

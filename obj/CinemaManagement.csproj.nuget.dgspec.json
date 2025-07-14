@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj": {}
+    "C:\\Users\\Liz\\Code\\Project\\CinemaManagement\\CinemaManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj": {
+    "C:\\Users\\Liz\\Code\\Project\\CinemaManagement\\CinemaManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj",
+        "projectUniqueName": "C:\\Users\\Liz\\Code\\Project\\CinemaManagement\\CinemaManagement.csproj",
         "projectName": "CinemaManagement",
-        "projectPath": "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\CinemaManagement.csproj",
+        "projectPath": "C:\\Users\\Liz\\Code\\Project\\CinemaManagement\\CinemaManagement.csproj",
         "packagesPath": "C:\\Users\\Liz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Liz\\Code\\Learn\\C#\\BasicApi\\obj\\",
+        "outputPath": "C:\\Users\\Liz\\Code\\Project\\CinemaManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Liz\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -44,6 +44,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Mapster": {
               "target": "Package",
               "version": "[7.4.2-pre02, )"
@@ -51,6 +55,10 @@
             "Mapster.DependencyInjection": {
               "target": "Package",
               "version": "[1.0.3-pre02, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

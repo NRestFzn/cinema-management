@@ -52,7 +52,6 @@ namespace CinemaManagement.Extensions
 
                                 case SecurityTokenInvalidSignatureException:
                                     errorMessage = "The token signature is invalid.";
-                                    errorMessage += $" Details: {context.AuthenticateFailure.Message}";
                                     break;
 
                                 default:

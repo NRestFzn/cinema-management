@@ -17,6 +17,7 @@ namespace CinemaManagement.Models
         public required Cinema Cinema { get; set; }
         public ICollection<StudioFacility> StudioFacilities { get; set; } = [];
         public ICollection<MovieSchedule> MovieSchedules { get; set; } = [];
+        public ICollection<PriceRule> PriceRules { get; set; } = [];
     }
 
     public class StudioConfiguration : IEntityTypeConfiguration<Studio>
@@ -61,6 +62,11 @@ namespace CinemaManagement.Models
                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.MovieSchedules)
+                   .WithOne(e => e.Studio)
+                   .HasForeignKey(e => e.StudioId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.PriceRules)
                    .WithOne(e => e.Studio)
                    .HasForeignKey(e => e.StudioId)
                    .OnDelete(DeleteBehavior.Cascade);

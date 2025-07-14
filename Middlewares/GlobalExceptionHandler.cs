@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using CinemaManagement.Helpers;
-
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+using CinemaManagement.Dto;
 namespace CinemaManagement.Middlewares
 {
 
@@ -24,14 +27,35 @@ namespace CinemaManagement.Middlewares
             Exception exception,
             CancellationToken cancellationToken)
         {
-            _logger.LogError(exception, $"Terjadi error tak terduga: {exception.Message}");
+            _logger.LogError(exception, "An unhandled exception has occurred: {Message}", exception.Message);
 
-            var errorResponse = ApiResponse.InternalServerError(exception.Message);
+            ActionResult<ApiResponseDto> errorResponse;
 
-            httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await httpContext.Response.WriteAsJsonAsync(errorResponse.Value, cancellationToken);
+            if (exception is DbUpdateException dbUpdateException &&
+                dbUpdateException.InnerException is MySqlException mySqlException)
+            {
+                errorResponse = mySqlException.Number switch
+                {
+                    1452 => ApiResponse.BadRequest([$"Invalid foreign key. The provided ID does not exist in the related table."]),
+
+                    1062 => ApiResponse.BadRequest([$"Duplicate entry. The value already exists and must be unique."]),
+
+                    _ => ApiResponse.InternalServerError("A database error occurred.")
+                };
+            }
+            else
+            {
+                errorResponse = ApiResponse.InternalServerError("An unexpected server error has occurred.");
+            }
+
+            var objectResult = errorResponse.Result as ObjectResult;
+
+            httpContext.Response.StatusCode = objectResult?.StatusCode ?? 500;
+
+            await httpContext.Response.WriteAsJsonAsync(objectResult?.Value, cancellationToken);
 
             return true;
+
         }
     }
 
