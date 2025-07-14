@@ -4,6 +4,7 @@ using CinemaManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaManagement.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250710034239_AddColumnStudios")]
+    partial class AddColumnStudios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,56 +346,6 @@ namespace CinemaManagement.Migrations
                     b.ToTable("movies", (string)null);
                 });
 
-            modelBuilder.Entity("CinemaManagement.Models.MovieSchedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("createdAt")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-                    b.Property<TimeOnly>("EndHour")
-                        .HasColumnType("time(6)")
-                        .HasColumnName("endHour");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int")
-                        .HasColumnName("MovieId");
-
-                    b.Property<DateOnly>("ScreeningDate")
-                        .HasColumnType("date")
-                        .HasColumnName("screeningDate");
-
-                    b.Property<TimeOnly>("StartHour")
-                        .HasColumnType("time(6)")
-                        .HasColumnName("startHour");
-
-                    b.Property<int>("StudioId")
-                        .HasColumnType("int")
-                        .HasColumnName("StudioId");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updatedAt")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("StudioId");
-
-                    b.ToTable("MovieSchedules", (string)null);
-                });
-
             modelBuilder.Entity("CinemaManagement.Models.OperatingHour", b =>
                 {
                     b.Property<int>("Id")
@@ -720,25 +673,6 @@ namespace CinemaManagement.Migrations
                     b.Navigation("MasterMovie");
                 });
 
-            modelBuilder.Entity("CinemaManagement.Models.MovieSchedule", b =>
-                {
-                    b.HasOne("CinemaManagement.Models.Movie", "Movie")
-                        .WithMany("MovieSchedules")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CinemaManagement.Models.Studio", "Studio")
-                        .WithMany("MovieSchedules")
-                        .HasForeignKey("StudioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("Studio");
-                });
-
             modelBuilder.Entity("CinemaManagement.Models.OperatingHour", b =>
                 {
                     b.HasOne("CinemaManagement.Models.Cinema", "Cinema")
@@ -823,11 +757,6 @@ namespace CinemaManagement.Migrations
                     b.Navigation("Studios");
                 });
 
-            modelBuilder.Entity("CinemaManagement.Models.Movie", b =>
-                {
-                    b.Navigation("MovieSchedules");
-                });
-
             modelBuilder.Entity("CinemaManagement.Models.Province", b =>
                 {
                     b.Navigation("Cities");
@@ -840,8 +769,6 @@ namespace CinemaManagement.Migrations
 
             modelBuilder.Entity("CinemaManagement.Models.Studio", b =>
                 {
-                    b.Navigation("MovieSchedules");
-
                     b.Navigation("StudioFacilities");
                 });
 #pragma warning restore 612, 618
