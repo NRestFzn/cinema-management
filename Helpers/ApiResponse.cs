@@ -11,9 +11,11 @@ namespace CinemaManagement.Helpers
 {
     public static class ApiResponse
     {
-        public static ActionResult<ApiResponseDto<T>> Ok<T>(T data, string message)
+        public static ActionResult<ApiResponseDto> Ok<T>(T data, string? message = null)
         {
-            var response = new ApiResponseDto<T>
+            message = string.IsNullOrEmpty(message) ? "success" : message;
+
+            var response = new GetDataResponseDto<T>
             {
                 Success = true,
                 Message = message,
@@ -22,9 +24,21 @@ namespace CinemaManagement.Helpers
             return new OkObjectResult(response);
         }
 
-        public static ActionResult<ApiResponseDto<T>> Created<T>(string actionName, object routeValues, T data, string message)
+        public static ActionResult<ApiResponseDto> Ok(string? message = null)
         {
-            var response = new ApiResponseDto<T>
+            message = string.IsNullOrEmpty(message) ? "success" : message;
+
+            var response = new ApiResponseDto
+            {
+                Success = true,
+                Message = message
+            };
+            return new OkObjectResult(response);
+        }
+
+        public static ActionResult<ApiResponseDto> Created<T>(string actionName, object routeValues, T data, string message)
+        {
+            var response = new GetDataResponseDto<T>
             {
                 Success = true,
                 Message = message,
@@ -39,23 +53,35 @@ namespace CinemaManagement.Helpers
             );
         }
 
-        public static ActionResult<ApiResponseDto<T>> NotFound<T>(string? message = null)
+        public static ActionResult NotFound(string? message = null)
         {
             message = string.IsNullOrEmpty(message) ? "Data not found" : message;
 
-            var response = new ApiResponseDto<object>
+            var response = new ErrorResponseDto
             {
                 Success = false,
-                Data = default(T),
                 ErrorCode = StatusCodes.Status404NotFound,
                 Errors = [message],
             };
             return new NotFoundObjectResult(response);
         }
 
-        public static ActionResult<ApiResponseDto<T>> BadRequest<T>(List<String> messages)
+        public static ActionResult Forbidden(string? message = null)
         {
-            var response = new ApiResponseDto<T>
+            message = string.IsNullOrEmpty(message) ? "you dont have permission" : message;
+
+            var response = new ErrorResponseDto
+            {
+                Success = false,
+                ErrorCode = StatusCodes.Status404NotFound,
+                Errors = [message],
+            };
+            return new NotFoundObjectResult(response);
+        }
+
+        public static ActionResult<ApiResponseDto> BadRequest(List<String> messages)
+        {
+            var response = new ErrorResponseDto
             {
                 Success = false,
                 ErrorCode = StatusCodes.Status400BadRequest,
@@ -64,9 +90,9 @@ namespace CinemaManagement.Helpers
             return new BadRequestObjectResult(response);
         }
 
-        public static ActionResult<ApiResponseDto<object>> InternalServerError(string message)
+        public static ActionResult<ApiResponseDto> InternalServerError(string message)
         {
-            var response = new ApiResponseDto<object>
+            var response = new ErrorResponseDto
             {
                 Success = false,
                 Message = "Internal server error.",
@@ -77,6 +103,17 @@ namespace CinemaManagement.Helpers
             {
                 StatusCode = StatusCodes.Status500InternalServerError
             };
+        }
+
+        public static ActionResult<ApiResponseDto> Unauthorized(string message)
+        {
+            var response = new ErrorResponseDto
+            {
+                Success = false,
+                Message = message,
+                ErrorCode = StatusCodes.Status401Unauthorized,
+            };
+            return new UnauthorizedObjectResult(response);
         }
     }
 }
